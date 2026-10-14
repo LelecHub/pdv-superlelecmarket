@@ -1,0 +1,34 @@
+# Segredos e configuração local
+.env
+pdv_config.json
+*.tmp
+
+# Bancos locais (SQLite offline)
+*.db
+*.db-wal
+*.db-shm
+
+# Saídas geradas em execução
+logs/
+saida_pdfs/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Ferramentas
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Editores / SO
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store

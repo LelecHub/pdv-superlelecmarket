@@ -1,0 +1,23 @@
+[project]
+name = "pdv-superlelecmarket"
+version = "1.0.0"
+description = "Ponto de venda em Python (Flet + PostgreSQL) com modo offline (SQLite)."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Lucas Vieira Dias" }]
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]
+ignore = ["E731", "E741"]
+
+[tool.ruff.lint.per-file-ignores]
+# test_postgres importa depois do skipif; testes usam `a; b` em linhas curtas
+"tests/*" = ["E402", "E702", "B017"]

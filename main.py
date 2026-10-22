@@ -2,7 +2,7 @@
 import sys
 
 
-def iniciar() -> None:
+def iniciar(web: bool = False, apos_migrar=None) -> None:
     from pdv import config
     from pdv.logger import configurar_logs
 
@@ -19,6 +19,8 @@ def iniciar() -> None:
     local.inicializar()
     pool.iniciar_pool()
     migrations.migrar_banco()
+    if apos_migrar:
+        apos_migrar()
 
     from pdv.services.sincronizacao import servico
 
@@ -28,12 +30,13 @@ def iniciar() -> None:
 
     from pdv.ui.app import main
 
+    view = ft.AppView.WEB_BROWSER if web else ft.AppView.FLET_APP
     # Flet 1.0 trocou ft.app(target=...) por ft.run(...)
     if hasattr(ft, "run"):
-        ft.run(main)
+        ft.run(main, view=view)
     else:  # Flet 0.x
-        ft.app(target=main)
+        ft.app(target=main, view=view)
 
 
 if __name__ == "__main__":
-    iniciar()
+    iniciar(web="--web" in sys.argv)

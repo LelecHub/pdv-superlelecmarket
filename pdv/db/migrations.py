@@ -19,6 +19,46 @@ _USUARIOS_DEV = [
 ]
 
 _DDL = [
+    # Tabelas base: num banco vazio o PDV sobe sozinho; num banco existente nada muda
+    """CREATE TABLE IF NOT EXISTS produtos (
+        id SERIAL PRIMARY KEY,
+        codigo_barras VARCHAR(50),
+        nome VARCHAR(150),
+        preco NUMERIC(10, 2),
+        quantidade_estoque NUMERIC(10, 3)
+    )""",
+    """CREATE TABLE IF NOT EXISTS clientes (
+        id SERIAL PRIMARY KEY,
+        nome VARCHAR(100),
+        cpf VARCHAR(14) UNIQUE,
+        pontos NUMERIC(10, 2) DEFAULT 0
+    )""",
+    """CREATE TABLE IF NOT EXISTS caixas (
+        id SERIAL PRIMARY KEY,
+        operador VARCHAR(100),
+        saldo_abertura NUMERIC(10, 2),
+        data_abertura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        status VARCHAR(20)
+    )""",
+    """CREATE TABLE IF NOT EXISTS vendas (
+        id SERIAL PRIMARY KEY,
+        total NUMERIC(10, 2),
+        forma_pagamento VARCHAR(30),
+        valor_recebido NUMERIC(10, 2),
+        troco NUMERIC(10, 2),
+        caixa_id INT REFERENCES caixas(id),
+        cliente_id INT REFERENCES clientes(id),
+        cpf_nota VARCHAR(14),
+        data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )""",
+    """CREATE TABLE IF NOT EXISTS itens_venda (
+        id SERIAL PRIMARY KEY,
+        venda_id INT REFERENCES vendas(id),
+        produto_id INT REFERENCES produtos(id),
+        quantidade NUMERIC(10, 3),
+        preco_unitario NUMERIC(10, 2),
+        subtotal NUMERIC(10, 2)
+    )""",
     """CREATE TABLE IF NOT EXISTS public.usuarios (
         id SERIAL PRIMARY KEY,
         matricula VARCHAR(20) UNIQUE NOT NULL,

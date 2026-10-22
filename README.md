@@ -82,6 +82,7 @@ quando a conexão volta, sem duplicar vendas.
 │   ├── config.py         # configuração via variáveis de ambiente / .env
 │   ├── money.py          # helpers de Decimal
 │   ├── criar_usuario.py  # CLI para criar usuários
+│   ├── demo.py           # modo demonstração com dados fictícios
 │   ├── db/               # acesso a dados, pool, migrações, SQLite local
 │   ├── services/         # promoções e sincronização offline
 │   ├── relatorios/       # PDFs (cupom, sangria, fechamento)
@@ -100,6 +101,20 @@ python main.py
 ```
 
 Preencha o `.env` com os dados do banco. `DB_PASS` é obrigatório: sem ele o programa não abre.
+O banco pode estar vazio: as migrações criam todas as tabelas na primeira execução.
+Use `python main.py --web` para abrir a interface no navegador.
+
+### Modo demonstração
+
+Para testar sem dados próprios:
+
+```bash
+python -m pdv.demo          # adicione --web para abrir no navegador
+```
+
+O comando usa as credenciais do `.env`, mas cria um banco **separado** (`pdv_demo`) com 10 produtos,
+2 promoções e um cliente fictícios. Os arquivos locais ficam na pasta `demo/`, então o banco de produção
+e a fila offline real não são tocados. Entre com `1001` / `1234` (operador). `--reset` recria tudo do zero.
 
 ### Usuários
 
